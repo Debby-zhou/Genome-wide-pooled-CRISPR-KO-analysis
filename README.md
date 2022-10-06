@@ -25,7 +25,7 @@
 # initiate
 source activate crisprenv
 # finish
-deactivate
+conda deactivate
 ```
 
 <a name="user_guide"></a>
@@ -42,7 +42,7 @@ deactivate
 
 1. Extract potential sgRNA clips
 	```
-	cutadapt -n 2 -g 'CGAAACACCG' -a 'GTTTTAGAGC' -G 'GCTCTAAAAC' -A 'CGGTGTTTCG' --discard-untrimmed -o cut_sample1_forward.fastq -p cut_sample1_reverse.fastq raw_data/sample1_forward.fastq raw_data/sample1_reverse.fastq > cut_sample1.log 
+	cutadapt -n 2 -g 'CGAAACACCG' -a 'GTTTTAGAGC' -G 'GCTCTAAAAC' -A 'CGGTGTTTCG' --discard-untrimmed -o cut_sample1_7day_forward.fastq -p cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq > cut_sample1_7day.log 
 	```
 	![adapter](img/cutadapt_adapter.png)
 2. Check the quality of sequences
@@ -54,26 +54,30 @@ deactivate
 
 	(1) convert CSV to fasta format of sgRNA library file
 	```
-	awk -F ',' '{if (NR>1) {print ">"$0"\n"$1}}' geckov2_library.csv > geckov2_library.fasta
+	awk -F ',' '{print ">"$1"\n"$2}' geckov2_library.csv > geckov2_library.fasta
 	```	
 	(2) build sgRNA indexes by sgRNA library fasta file
 	```
 	mkdir sgrna_index
-	bowtie2-build -f geckov2_library.fasta sgrna_index/sgrna_library
+	bowtie2-build -f geckov2_library.fasta sgrna_index/geckov2_library
 	```
+	> It works when `Total time for backward call to driver() for mirror index: 00:00:00` showing in the end.
+
 	(3) align potential clips to the library
 	```
-	bowtie2 -p 8 --norc -x sgrna_index/sgrna_library -1 cut_sample1_forward.fastq -2 cut_sample1_reverse.fastq -S sample1.sam 2> alignment_sample1.log
+	bowtie2 -p 8 --norc -x sgrna_index/geckov2_library -1 cut_sample1_7day_forward.fastq -2 cut_sample1_7day_reverse.fastq -S sample1_7day.sam 2> alignment_sample1_7day.log
 	```
 4. Format to BAM files
 	```
-	samtools view -bSq 10 sample1.sam > sample1.bam
+	samtools view -bSq 10 sample1_7day.sam > sample1_7day.bam
 	```
 5. Collect sgRNA normalized counts
 	```
 	mkdir sgrna_counts
-	mageck count -l geckov2_library.csv -n sgrna_counts/library_sgrna --sample-label sample1,sample2 --fastq sample1.bam sample2.bam
+	mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq sample1_7day.bam sample1_21day.bam
 	```
+	> Log info is sgrna_Counts/geckov2_sgrnas.log.
+
 6. Identify DEGs
 
 <a name="qc"></a>

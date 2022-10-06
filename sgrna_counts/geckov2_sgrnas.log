@@ -1,0 +1,40 @@
+INFO  @ Thu, 06 Oct 2022 23:36:05: Parameters: /home/Chihyuanchou/.conda/envs/crisprenv/bin/mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq alignment/sample1_7day.bam alignment/sample1_21day.bam 
+INFO  @ Thu, 06 Oct 2022 23:36:05: Welcome to MAGeCK v0.5.9.2. Command: count 
+INFO  @ Thu, 06 Oct 2022 23:36:05: Loading 56869 predefined sgRNAs. 
+WARNING @ Thu, 06 Oct 2022 23:36:05: There are 1159 sgRNAs with duplicated sequences. 
+INFO  @ Thu, 06 Oct 2022 23:36:05: Parsing BAM file alignment/sample1_7day.bam... 
+WARNING @ Thu, 06 Oct 2022 23:36:05: sgRNA ID HGLibB_01148 in the BAM file is missing in the provided library file (it may have duplicated sequences with other sgRNAs). Please double check. 
+WARNING @ Thu, 06 Oct 2022 23:36:05: sgRNA ID HGLibB_01153 in the BAM file is missing in the provided library file (it may have duplicated sequences with other sgRNAs). Please double check. 
+WARNING @ Thu, 06 Oct 2022 23:36:05: sgRNA ID HGLibB_01154 in the BAM file is missing in the provided library file (it may have duplicated sequences with other sgRNAs). Please double check. 
+INFO  @ Thu, 06 Oct 2022 23:36:05: 58028 references detected in the BAM file. 
+WARNING @ Thu, 06 Oct 2022 23:36:05: Total sgRNAs that are missing in the library (may be due to duplicated sequences):1159 
+INFO  @ Thu, 06 Oct 2022 23:36:05: Processing 0M records .. 
+INFO  @ Thu, 06 Oct 2022 23:36:05: mapped:1463 
+INFO  @ Thu, 06 Oct 2022 23:36:05: Parsing BAM file alignment/sample1_21day.bam... 
+WARNING @ Thu, 06 Oct 2022 23:36:05: sgRNA ID HGLibB_01148 in the BAM file is missing in the provided library file (it may have duplicated sequences with other sgRNAs). Please double check. 
+WARNING @ Thu, 06 Oct 2022 23:36:05: sgRNA ID HGLibB_01153 in the BAM file is missing in the provided library file (it may have duplicated sequences with other sgRNAs). Please double check. 
+WARNING @ Thu, 06 Oct 2022 23:36:05: sgRNA ID HGLibB_01154 in the BAM file is missing in the provided library file (it may have duplicated sequences with other sgRNAs). Please double check. 
+INFO  @ Thu, 06 Oct 2022 23:36:06: 58028 references detected in the BAM file. 
+WARNING @ Thu, 06 Oct 2022 23:36:06: Total sgRNAs that are missing in the library (may be due to duplicated sequences):1159 
+INFO  @ Thu, 06 Oct 2022 23:36:06: Processing 0M records .. 
+INFO  @ Thu, 06 Oct 2022 23:36:06: mapped:1453 
+DEBUG @ Thu, 06 Oct 2022 23:36:06: Initial (total) size factor: 0.9965823650034177 1.0034411562284928 
+WARNING @ Thu, 06 Oct 2022 23:36:06: Sample 0 has too many zero-count sgRNAs (0.4993093922651934), and median normalization is unstable. Switch to total read count normalization. 
+WARNING @ Thu, 06 Oct 2022 23:36:06: Sample 1 has too many zero-count sgRNAs (0.4910220994475138), and median normalization is unstable. Switch to total read count normalization. 
+INFO  @ Thu, 06 Oct 2022 23:36:06: Final size factor: 0.9965823650034177 1.0034411562284928 
+INFO  @ Thu, 06 Oct 2022 23:36:06: Summary of file alignment/sample1_7day.bam: 
+INFO  @ Thu, 06 Oct 2022 23:36:06: label	sample1_7day 
+INFO  @ Thu, 06 Oct 2022 23:36:06: reads	1463 
+INFO  @ Thu, 06 Oct 2022 23:36:06: mappedreads	1463 
+INFO  @ Thu, 06 Oct 2022 23:36:06: totalsgrnas	56869 
+INFO  @ Thu, 06 Oct 2022 23:36:06: zerosgrnas	56144 
+INFO  @ Thu, 06 Oct 2022 23:36:06: giniindex	0.9876744095562832 
+INFO  @ Thu, 06 Oct 2022 23:36:06: Summary of file alignment/sample1_21day.bam: 
+INFO  @ Thu, 06 Oct 2022 23:36:06: label	sample1_21day 
+INFO  @ Thu, 06 Oct 2022 23:36:06: reads	1453 
+INFO  @ Thu, 06 Oct 2022 23:36:06: mappedreads	1453 
+INFO  @ Thu, 06 Oct 2022 23:36:06: totalsgrnas	56869 
+INFO  @ Thu, 06 Oct 2022 23:36:06: zerosgrnas	56132 
+INFO  @ Thu, 06 Oct 2022 23:36:06: giniindex	0.9877762655053031 
+INFO  @ Thu, 06 Oct 2022 23:36:06: Loading Rnw template file: /home/Chihyuanchou/.conda/envs/crisprenv/lib/python3.7/site-packages/mageck/fastq_template.Rnw. 
+DEBUG @ Thu, 06 Oct 2022 23:36:06: Setting up the visualization module... 
