@@ -76,7 +76,7 @@ conda deactivate
 	mkdir sgrna_counts
 	mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq sample1_7day.bam sample1_21day.bam
 	```
-	> Log info is sgrna_Counts/geckov2_sgrnas.log.
+	> Log file is sgrna_counts/geckov2_sgrnas.log.
 
 6. Identify DEGs
 
