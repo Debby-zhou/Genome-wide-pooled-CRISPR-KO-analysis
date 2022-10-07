@@ -22,6 +22,8 @@
 <a name="environment"></a>
 ## Environment setup
 ```
+# buildup
+conda env create -f environment.yml
 # initiate
 source activate crisprenv
 # finish
@@ -77,21 +79,42 @@ conda deactivate
 	mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq sample1_7day.bam sample1_21day.bam
 	```
 	> Log file is sgrna_counts/geckov2_sgrnas.log.
+6. Select max |log2 Fold change| as gene expression
+	Please open select_max_log2FC.py and modify input & output, 
+	```
+	counts_file = "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
+	rivals = "sample1_7day,sample1_21day" #when lots of samples please command "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
+	output_file = "gene-based_log2FC_sample1.txt"
+	```
+	After execution, it may show the below warning message.
+	```
+	A value is trying to be set on a copy of a slice from a DataFrame.
+	Try using .loc[row_indexer,col_indexer] = value instead
 
-6. Identify DEGs
+	See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  	df_rival[log2fcName] = df_rival.apply(lambda x: log2fc(x[early],x[late]), axis=1)
+	```
+
+7. Identify DEGs
 
 <a name="qc"></a>
 ## Quality control
 ### Sequence-level
-1. sequencing reads > 15,000,000
-2. similar GC content distribution
-3. the lowest median of base quality > Q25
+1. raw sequencing reads > 15,000,000[^2]
+2. similar GC content distribution[^3]
+3. the lowest median of base quality > Q25[^3]
 ### Count-level
-4. mean of sgRNAs counts at early time point > 300
-5. % mapped sgRNAs ratio > 65%
-6. 0 sgRNAs at early time point < 1%
-7. expression changes of non-targeting control genes are steady (around 0)   
+4. mean of sgRNAs counts at early time point > 300[^3]
+5. % mapped sgRNAs ratio > 65%[^3]
+6. 0 sgRNAs at early time point < 1%[^3]
+7. expression changes of non-targeting control genes are steady (around 0)[^4]   
 
 ## References
 
 [^1]: Nechiporuk T, Kurtz SE, Nikolova O, Liu T, Jones CL, D'Alessandro A, Culp-Hill R, d'Almeida A, Joshi SK, Rosenberg M, Tognon CE, Danilov AV, Druker BJ, Chang BH, McWeeney SK, Tyner JW. The TP53 Apoptotic Network Is a Primary Mediator of Resistance to BCL2 Inhibition in AML Cells. Cancer Discov. 2019 Jul;9(7):910-925. 
+
+[^2]: Meyers RM, Bryan JG, McFarland JM, Weir BA, Sizemore AE, Xu H, Dharia NV, Montgomery PG, Cowley GS, Pantel S, Goodale A, Lee Y, Ali LD, Jiang G, Lubonja R, Harrington WF, Strickland M, Wu T, Hawes DC, Zhivich VA, Wyatt MR, Kalani Z, Chang JJ, Okamoto M, Stegmaier K, Golub TR, Boehm JS, Vazquez F, Root DE, Hahn WC, Tsherniak A. Computational correction of copy number effect improves specificity of CRISPR-Cas9 essentiality screens in cancer cells. Nat Genet. 2017 Dec;49(12):1779-1784.
+
+[^3]: Li W, Köster J, Xu H, Chen CH, Xiao T, Liu JS, Brown M, Liu XS. Quality control, modeling, and visualization of CRISPR screens with MAGeCK-VISPR. Genome Biol. 2015 Dec 16;16:281.
+
+[^4]: Caeser R, Di Re M, Krupka JA, Gao J, Lara-Chica M, Dias JML, Cooke SL, Fenner R, Usheva Z, Runge HFP, Beer PA, Eldaly H, Pak HK, Park CS, Vassiliou GS, Huntly BJP, Mupo A, Bashford-Rogers RJM, Hodson DJ. Genetic modification of primary human B cells to model high-grade lymphoma. Nat Commun. 2019 Oct 4;10(1):4543.
