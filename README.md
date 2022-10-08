@@ -39,26 +39,41 @@ conda deactivate
 #### Processing overview
 ![process_overview](img/Process_overview.png)
 
-#### Execution details
-> Execution output shows in the log file documented by each step.
+#### Process details
 
-1. Extract potential sgRNA clips
+##### STEP1. Extract potential sgRNA clips
+
+	###### Command
 	```
 	cutadapt -n 2 -g 'CGAAACACCG' -a 'GTTTTAGAGC' -G 'GCTCTAAAAC' -A 'CGGTGTTTCG' --discard-untrimmed -o cut_sample1_7day_forward.fastq -p cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq > cut_sample1_7day.log 
 	```
 	![adapter](img/cutadapt_adapter.png)
-2. Check the quality of sequences
+
+	###### Execution result
+	```
+	This is cutadapt 3.7 with Python 3.9.2
+	Command line parameters: -n 2 -g CGAAACACCG -a GTTTTAGAGC -G GCTCTAAAAC -A CGGTGTTTCG --discard-untrimmed -o cut_sgrna/cut_sample1_7day_forward.fastq -p cut_sgrna/cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq
+	Processing reads on 1 core in paired-end mode ...
+	Finished in 0.05 s (46 µs/read; 1.30 M reads/minute).
+	```
+##### STEP2. Check the quality of sequences
+	
+	###### Command
 	```
 	mkdir sample1_forward
 	fastqc -o sample1_forward cut_sample1_forward.fastq
 	```
-3. Align to referenced sgRNA library (ex. geckov2 library)
+	
+##### STEP3. Align to referenced sgRNA library (ex. geckov2 library)
 
 	(1) convert CSV to fasta format of sgRNA library file
+	###### Command
 	```
 	awk -F ',' '{print ">"$1"\n"$2}' geckov2_library.csv > geckov2_library.fasta
 	```	
+
 	(2) build sgRNA indexes by sgRNA library fasta file
+	###### Command
 	```
 	mkdir sgrna_index
 	bowtie2-build -f geckov2_library.fasta sgrna_index/geckov2_library
@@ -66,20 +81,26 @@ conda deactivate
 	> It works when `Total time for backward call to driver() for mirror index: 00:00:00` showing in the end.
 
 	(3) align potential clips to the library
+	###### Command
 	```
 	bowtie2 -p 8 --norc -x sgrna_index/geckov2_library -1 cut_sample1_7day_forward.fastq -2 cut_sample1_7day_reverse.fastq -S sample1_7day.sam 2> alignment_sample1_7day.log
 	```
-4. Format to BAM files
+##### STEP4. Format to BAM files
+	###### Command
 	```
 	samtools view -bSq 10 sample1_7day.sam > sample1_7day.bam
 	```
-5. Collect sgRNA normalized counts
+##### STEP5. Collect sgRNA normalized counts
+	###### Command
 	```
 	mkdir sgrna_counts
 	mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq sample1_7day.bam sample1_21day.bam
 	```
-	> Log file is sgrna_counts/geckov2_sgrnas.log.
-6. Select max |log2 Fold change| as gene expression
+	###### Execution result
+	The content is documented in `sgrna_counts/geckov2_sgrnas.log`.
+
+##### STEP6. Select max |log2 Fold change| as gene expression
+	###### Command
 	```
 	python select_max_logFC.py "sgrna_counts/geckov2_sgrnas.count_normalized.txt" "sample1_7day,sample1_21day" "gene-based_log2FC_sample1.txt"
 	```
@@ -89,6 +110,7 @@ conda deactivate
 	argv[2]: "sample1_7day,sample1_21day" #when lots of samples please command "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
 	argv[3]: "gene-based_log2FC_sample1.txt"
 	```
+	###### Execution result
 	After execution, it may show the below warning message.
 	```
 	A value is trying to be set on a copy of a slice from a DataFrame.
