@@ -43,25 +43,24 @@ conda deactivate
 
 ##### STEP 1. Extract potential sgRNA clips
 
-	Command
-
+	<p>Command</p>
 	```
 	cutadapt -n 2 -g 'CGAAACACCG' -a 'GTTTTAGAGC' -G 'GCTCTAAAAC' -A 'CGGTGTTTCG' --discard-untrimmed -o cut_sample1_7day_forward.fastq -p cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq > cut_sample1_7day.log 
 	```
+
 	![adapter](img/cutadapt_adapter.png)
 
-	Execution result
-
+	<p>Execution result</p>
 	```
 	This is cutadapt 3.7 with Python 3.9.2
 	Command line parameters: -n 2 -g CGAAACACCG -a GTTTTAGAGC -G GCTCTAAAAC -A CGGTGTTTCG --discard-untrimmed -o cut_sgrna/cut_sample1_7day_forward.fastq -p cut_sgrna/cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq
 	Processing reads on 1 core in paired-end mode ...
 	Finished in 0.05 s (46 µs/read; 1.30 M reads/minute).
 	```
+
 ##### STEP 2. Check the quality of sequences
 	
-	Command
-
+	<p>Command</p>
 	```
 	mkdir sample1_forward
 	fastqc -o sample1_forward cut_sample1_forward.fastq
@@ -71,54 +70,49 @@ conda deactivate
 
 	(1) convert CSV to fasta format of sgRNA library file
 	
-	Command
-
+	<p>Command</p>
 	```
 	awk -F ',' '{print ">"$1"\n"$2}' geckov2_library.csv > geckov2_library.fasta
 	```	
 
 	(2) build sgRNA indexes by sgRNA library fasta file
 	
-	Command
-
+	<p>Command</p>
 	```
 	mkdir sgrna_index
 	bowtie2-build -f geckov2_library.fasta sgrna_index/geckov2_library
 	```
+
 	> It works when `Total time for backward call to driver() for mirror index: 00:00:00` showing in the end.
 
 	(3) align potential clips to the library
 	
-	Command
-
+	<p>Command</p>
 	```
 	bowtie2 -p 8 --norc -x sgrna_index/geckov2_library -1 cut_sample1_7day_forward.fastq -2 cut_sample1_7day_reverse.fastq -S sample1_7day.sam 2> alignment_sample1_7day.log
 	```
 
 ##### STEP 4. Format to BAM files
 	
-	Command
-
+	<p>Command</p>
 	```
 	samtools view -bSq 10 sample1_7day.sam > sample1_7day.bam
 	```
 ##### STEP 5. Collect sgRNA normalized counts
 	
-	Command
-
+	<p>Command</p>
 	```
 	mkdir sgrna_counts
 	mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq sample1_7day.bam sample1_21day.bam
 	```
 	
-	Execution result
+	<p>Execution result</p>
 
 	The content is documented in `sgrna_counts/geckov2_sgrnas.log`.
 
 ##### STEP 6. Select max |log2 Fold change| as gene expression
 	
-	Command
-
+	<p>Command</p>
 	```
 	python select_max_logFC.py "sgrna_counts/geckov2_sgrnas.count_normalized.txt" "sample1_7day,sample1_21day" "gene-based_log2FC_sample1.txt"
 	```
@@ -129,7 +123,7 @@ conda deactivate
 	argv[3]: "gene-based_log2FC_sample1.txt"
 	```
 	
-	Execution result
+	<p>Execution result</p>
 
 	After execution, it may show the below warning message.
 
