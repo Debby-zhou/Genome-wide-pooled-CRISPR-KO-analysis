@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
 from sys import argv
-
-counts_file = "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
-rivals = "sample1_7day,sample1_21day"
-output_file = "gene-based_log2FC_sample1.txt"
-
-arrRivals = [r.split(",") for r in rivals.split(";")] if ";" in rivals else [rivals.split(",")]
+'''
+argv[1]: "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
+argv[2]: "sample1_7day,sample1_21day"
+argv[3]: "gene-based_log2FC_sample1.txt"
+'''
+script, counts_file, samples, output_file = argv
+arrRivals = [r.split(",") for r in samples.split(";")] if ";" in samples else [samples.split(",")]
 
 def log2fc(early_time, late_time):
     log2fcNum = np.log2(late_time+1)-np.log2(early_time+1)

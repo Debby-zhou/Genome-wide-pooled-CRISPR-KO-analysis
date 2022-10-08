@@ -80,11 +80,14 @@ conda deactivate
 	```
 	> Log file is sgrna_counts/geckov2_sgrnas.log.
 6. Select max |log2 Fold change| as gene expression
-	Please open select_max_log2FC.py and modify input & output, 
 	```
-	counts_file = "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
-	rivals = "sample1_7day,sample1_21day" #when lots of samples please command "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
-	output_file = "gene-based_log2FC_sample1.txt"
+	python select_max_logFC.py "sgrna_counts/geckov2_sgrnas.count_normalized.txt" "sample1_7day,sample1_21day" "gene-based_log2FC_sample1.txt"
+	```
+	Open the file to see more details: 
+	```		
+	argv[1]: "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
+	argv[2]: "sample1_7day,sample1_21day" #when lots of samples please command "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
+	argv[3]: "gene-based_log2FC_sample1.txt"
 	```
 	After execution, it may show the below warning message.
 	```
