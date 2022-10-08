@@ -41,16 +41,17 @@ conda deactivate
 
 #### Process details
 
-##### STEP 1. Extract potential sgRNA clips
+1. Extract potential sgRNA clips
 
-	<p>Command</p>
+	##### Command
+
 	```
 	cutadapt -n 2 -g 'CGAAACACCG' -a 'GTTTTAGAGC' -G 'GCTCTAAAAC' -A 'CGGTGTTTCG' --discard-untrimmed -o cut_sample1_7day_forward.fastq -p cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq > cut_sample1_7day.log 
 	```
 
 	![adapter](img/cutadapt_adapter.png)
 
-	<p>Execution result</p>
+	##### Execution result
 	```
 	This is cutadapt 3.7 with Python 3.9.2
 	Command line parameters: -n 2 -g CGAAACACCG -a GTTTTAGAGC -G GCTCTAAAAC -A CGGTGTTTCG --discard-untrimmed -o cut_sgrna/cut_sample1_7day_forward.fastq -p cut_sgrna/cut_sample1_7day_reverse.fastq raw_data/sample1_7day_forward.fastq raw_data/sample1_7day_reverse.fastq
