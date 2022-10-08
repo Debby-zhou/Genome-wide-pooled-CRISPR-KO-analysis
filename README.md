@@ -41,7 +41,7 @@ conda deactivate
 
 #### Process details
 
-1. Extract potential sgRNA clips
+ 1. Extract potential sgRNA clips
 
 	##### Command
 
@@ -59,26 +59,26 @@ conda deactivate
 	Finished in 0.05 s (46 µs/read; 1.30 M reads/minute).
 	```
 
-##### STEP 2. Check the quality of sequences
+ 2. Check the quality of sequences
 	
-	<p>Command</p>
+	##### Command 
 	```
 	mkdir sample1_forward
 	fastqc -o sample1_forward cut_sample1_forward.fastq
 	```
 	
-##### STEP 3. Align to referenced sgRNA library (ex. geckov2 library)
+ 3. Align to referenced sgRNA library (ex. geckov2 library)
 
 	(1) convert CSV to fasta format of sgRNA library file
 	
-	<p>Command</p>
+	##### Command 
 	```
 	awk -F ',' '{print ">"$1"\n"$2}' geckov2_library.csv > geckov2_library.fasta
 	```	
 
 	(2) build sgRNA indexes by sgRNA library fasta file
 	
-	<p>Command</p>
+	##### Command 
 	```
 	mkdir sgrna_index
 	bowtie2-build -f geckov2_library.fasta sgrna_index/geckov2_library
@@ -88,32 +88,32 @@ conda deactivate
 
 	(3) align potential clips to the library
 	
-	<p>Command</p>
+	##### Command 
 	```
 	bowtie2 -p 8 --norc -x sgrna_index/geckov2_library -1 cut_sample1_7day_forward.fastq -2 cut_sample1_7day_reverse.fastq -S sample1_7day.sam 2> alignment_sample1_7day.log
 	```
 
-##### STEP 4. Format to BAM files
+ 4. Format to BAM files
 	
-	<p>Command</p>
+	##### Command 
 	```
 	samtools view -bSq 10 sample1_7day.sam > sample1_7day.bam
 	```
-##### STEP 5. Collect sgRNA normalized counts
+ 5. Collect sgRNA normalized counts
 	
-	<p>Command</p>
+	##### Command 
 	```
 	mkdir sgrna_counts
 	mageck count -l geckov2_library.csv -n sgrna_counts/geckov2_sgrnas --sample-label sample1_7day,sample1_21day --fastq sample1_7day.bam sample1_21day.bam
 	```
 	
-	<p>Execution result</p>
+	##### Execution result 
 
 	The content is documented in `sgrna_counts/geckov2_sgrnas.log`.
 
-##### STEP 6. Select max |log2 Fold change| as gene expression
+ 6. Select max |log2 Fold change| as gene expression
 	
-	<p>Command</p>
+	##### Command 
 	```
 	python select_max_logFC.py "sgrna_counts/geckov2_sgrnas.count_normalized.txt" "sample1_7day,sample1_21day" "gene-based_log2FC_sample1.txt"
 	```
@@ -124,7 +124,7 @@ conda deactivate
 	argv[3]: "gene-based_log2FC_sample1.txt"
 	```
 	
-	<p>Execution result</p>
+	##### Execution result 
 
 	After execution, it may show the below warning message.
 
@@ -136,7 +136,7 @@ conda deactivate
   	df_rival[log2fcName] = df_rival.apply(lambda x: log2fc(x[early],x[late]), axis=1)
 	```
 
-##### STEP 7. Identify DEGs
+ 7. Identify DEGs
 
 <a name="qc"></a>
 ## Quality control
