@@ -115,25 +115,7 @@ conda deactivate
 	
 	##### Command 
 	```
-	python select_max_logFC.py "sgrna_counts/geckov2_sgrnas.count_normalized.txt" "sample1_7day,sample1_21day" "gene-based_log2FC_sample1.txt"
-	```
-	Open the file to see more details: 
-	```		
-	argv[1]: "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
-	argv[2]: "sample1_7day,sample1_21day" #when lots of samples please command "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
-	argv[3]: "gene-based_log2FC_sample1.txt"
-	```
-	
-	##### Execution result 
-
-	After execution, it may show the below warning message.
-
-	```
-	A value is trying to be set on a copy of a slice from a DataFrame.
-	Try using .loc[row_indexer,col_indexer] = value instead
-
-	See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  	df_rival[log2fcName] = df_rival.apply(lambda x: log2fc(x[early],x[late]), axis=1)
+	python select_max_logFC.py sgrna_counts/geckov2_sgrnas.count_normalized.txt "sample1_7day,sample1_21day" "gene-based_log2FC_sample1.txt"
 	```
 
  7. Identify DEGs
