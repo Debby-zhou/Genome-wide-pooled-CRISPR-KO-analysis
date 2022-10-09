@@ -1,4 +1,4 @@
-Gene	sgRNA(sample1_21day/sample1_7day)	sample1_7day	sample1_21day	log2(sample1_21day/sample1_7day)	abs_log2(sample1_21day/sample1_7day)
+Gene	sgRNA	sample1_7day	sample1_21day	log2(sample1_21day/sample1_7day)	abs_log2(sample1_21day/sample1_7day)
 ZFP106	HGLibB_55116	0.0	6.020646937370957	2.8116039778707482	2.8116039778707482
 MADD	HGLibB_27816	5.979494190020506	0.0	-2.8031224868660916	2.8031224868660916
 GPR3	HGLibB_19986	0.0	4.013764624913971	2.3258942693190336	2.3258942693190336

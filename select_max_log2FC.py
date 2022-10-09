@@ -2,9 +2,10 @@ import numpy as np
 import pandas as pd
 from sys import argv
 '''
-nor_counts_file = "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
-fc_samples = "sample1_7day,sample1_21day" # with multiple samples please use ';' to seperate e.g. "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
-output_file = "gene-based_log2FC_sample1.txt"
+Example:
+	nor_counts_file = "sgrna_counts/geckov2_sgrnas.count_normalized.txt"
+	fc_samples = "sample1_7day,sample1_21day" # with multiple samples please use ';' to seperate e.g. "sample1_7day,sample1_21day;sample2_7day,sample2_21day"
+	output_file = "gene-based_log2FC_sample1.txt"
 '''
 script, nor_counts_file, fc_samples, output_file = argv 
 fc_rivals = [r.split(",") for r in fc_samples.split(";")] if ";" in fc_samples else [fc_samples.split(",")]
@@ -20,9 +21,10 @@ for rival in fc_rivals:
 	late_key = [h for h in range(len(header)) if header[h]==late_sample][0]-2
 	log2fc =[np.log2(row[late_key]+1)-np.log2(row[early_key]+1) for row in arr_expr]
 	log2fc_name = "log2("+late_sample+"/"+early_sample+")"
+	sgrna_name = header[0]+log2fc_name[4:] if ";" in fc_samples else header[0]
 	df_log2fc = pd.DataFrame({
 		header[1]: [d[1] for d in data],
-		header[0]+log2fc_name[4:]: [d[0] for d in data],
+		sgrna_name: [d[0] for d in data],
 		early_sample: [e[early_key] for e in arr_expr],
 		late_sample: [e[late_key] for e in arr_expr],
 		log2fc_name: log2fc,
